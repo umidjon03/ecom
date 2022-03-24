@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static "shop/style.css" %}">
+
+    <title>Title</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul id="list_group" class="list-group">
+
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST"> {% csrf_token %}
+                    <input type="hidden" id="items" name="items">
+                  <div class="form-row">
+                        <div class="form-group col-md-6">
+                              <label for="name">Name</label>
+                              <input id="name" name="name" type="text" class="form-control" placeholder="John">
+                        </div>
+                        <div class="form-group col-md-6">
+                              <label for="email">Email</label>
+                              <input id="email" name="email" type="email" class="form-control" placeholder="john@john.com">
+                        </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <input id="address" name="address" type="text" class="form-control" placeholder="1234 Main St">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="city">City</label>
+                      <input id="city" name="city" type="text" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="state">State</label>
+                      <input  id="state" name="state" type="text" class="form-control">
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="zipcode">Zip</label>
+                      <input id="zipcode" name="zipcode" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript">
+    if(localStorage.getItem('cart')==null){
+        var cart = {}
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem('cart'))
+    }
+    var itemString;
+    for (var item in cart) {
+        let name = cart[item][1]
+        let quantity = cart[item][0]
+
+        itemString = `<li class="list-group-item d-flex justify-content-between align-items-center">${name}<span class="badge badge-primary badge-pill">${quantity}</span></li>`
+        $('#list_group').append(itemString)
+    }
+    var item1String='';
+    for (var item1 in cart){
+        let name = cart[item1][1]
+        let qnt = cart[item1][0]
+        item1String += `${qnt}ta ${name}, `
+    }
+    $('#items').val(item1String)
+</script>
+
+
+</html>
